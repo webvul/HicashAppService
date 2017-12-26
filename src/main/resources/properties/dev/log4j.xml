@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+  
+<log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/' >
+
+    <!-- 控制台输出 -->
+	<appender name="ConsoleAppender" class="org.apache.log4j.ConsoleAppender">
+		<param name="Threshold" value="info" /> 
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd hh:mm:ss}:%p %t %c - %m%n" />
+		</layout>
+	</appender>
+	
+    <!-- info级别输出文件 -->
+	<appender name="infoFile" class="org.apache.log4j.DailyRollingFileAppender">  
+		<param name="File" value="${catalina.home}/logs/hicashApp.log" /><!-- 设置日志输出文件名 -->
+		<!-- 设置是否在重新启动服务时，在原有日志的基础添加新日志 -->
+		<param name="Append" value="true" />
+		<param name="Threshold" value="info" /> 
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%p (%c:%L)- %m%n" />
+		</layout>
+		    <filter class="org.apache.log4j.varia.LevelRangeFilter">  
+		    <!--  -->
+                    <param name="LevelMax" value="INFO" />  
+                    <param name="LevelMin" value="INFO" />  
+            </filter>  
+	</appender>
+	
+ <!-- error级别输出文件 -->
+	<appender name="errorFile" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="${catalina.home}/logs/hicashApp_error.log" /> 
+		<param name="DatePattern" value="'.'yyyy-MM-dd'.log'" /> 
+		<param name="Threshold" value="error" /> 
+		<layout class="org.apache.log4j.PatternLayout">
+		 <param name="ConversionPattern" 
+			value="[%d{MMdd HH:mm:ss SSS\} %-5p] [%t] %c{3\} - %m%n" />
+		</layout> 
+		
+		  <filter class="org.apache.log4j.varia.LevelRangeFilter">  
+                    <param name="LevelMax" value="ERROR" />  
+                    <param name="LevelMin" value="ERROR" />  
+            </filter>  
+	</appender>
+
+	    <!-- 记录该包下所有日志 -->  
+    <logger name="com">  
+        <level value="ALL"/>  
+        <appender-ref ref="ConsoleAppender"/>  
+        <appender-ref ref="errorFile"/>  
+        <appender-ref ref="infoFile"/>  
+       
+    </logger>  
+</log4j:configuration>
